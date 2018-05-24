@@ -18,20 +18,22 @@ public class ListViewSample2Activity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view_sample2);
 
-        ListView lvMenu = findViewById(R.id.lvMenu);
+        ListView lvMenu = (ListView) findViewById(R.id.lvMenu);
 
         List<String> menuList = new ArrayList<>();
         menuList.add("karaage");
         menuList.add("hanba-gu");
         menuList.add("shouga");
-
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(getApplicationContext(),
                         android.R.layout.simple_list_item_1, menuList);
 
         lvMenu.setAdapter(adapter);
 
+        lvMenu.setOnItemClickListener(new ListItemClickListener());
+
     }//onCreate
+
 
 
     private class ListItemClickListener implements AdapterView.OnItemClickListener {
