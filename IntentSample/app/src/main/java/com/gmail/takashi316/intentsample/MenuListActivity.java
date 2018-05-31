@@ -1,7 +1,10 @@
 package com.gmail.takashi316.intentsample;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -17,7 +20,7 @@ public class MenuListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_list);
 
-        final ListView lvMenu = findViewById(R.id.lvMenu);
+        final ListView lvMenu = (ListView) findViewById(R.id.lvMenu);
 
         List menuList = new ArrayList<>();
 
@@ -41,5 +44,23 @@ public class MenuListActivity extends AppCompatActivity {
                 );
 
         lvMenu.setAdapter(adapter);
+        lvMenu.setOnItemClickListener(new ListItemClickListener());
+    }
+
+    private class ListItemClickListener implements ListView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Map<String,String> item = (Map<String,String>) parent.getItemAtPosition(position);
+            String menuName = item.get("name");
+            String menuPrice = item.get("price");
+
+            Intent intent = new Intent(getApplicationContext(), MenuThanksActivity.class);
+            intent.putExtra("name", menuName);
+            intent.putExtra("price", menuPrice);
+
+            startActivity(intent);
+
+        }
     }
 }
