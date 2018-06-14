@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">LifeCycleSample</string>
+    <string name="bt_next">次のアクティビティ（Sub）を表示</string>
+    <string name="bt_previous">サブアクティビティを終了</string>
+</resources>
