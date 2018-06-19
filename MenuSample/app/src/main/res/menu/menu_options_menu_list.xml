@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuListOptionTeishoku"
+        android:showAsAction="never"
+        android:title="@string/menu_list_options_teishoku"></item>
+    <item
+        android:id="@+id/menuListOptionCurry"
+        android:showAsAction="never"
+        android:title="@string/menu_list_options_curry"></item>
+
+</menu>

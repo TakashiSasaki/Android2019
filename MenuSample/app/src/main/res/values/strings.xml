@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">メニューサンプル</string>
     <string name="tv_menu_unit">円</string>
-    <string name="menu_list_option_teishoku">定食</string>
-    <string name="menu_list_option_curry">カレー</string>
+    <string name="menu_list_options_teishoku">定食</string>
+    <string name="menu_list_options_curry">カレー</string>
     <string name="menu_list_context_desc">説明を表示</string>
     <string name="menu_list_context_order">ご注文</string>
     <string name="menu_list_context_header">操作を選んでください。</string>
