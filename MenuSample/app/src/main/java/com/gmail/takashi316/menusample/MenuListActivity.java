@@ -3,6 +3,7 @@ package com.gmail.takashi316.menusample;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,13 +11,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ListViewActivity extends Activity {
+public class MenuListActivity extends Activity {
 
     private ListView _lvMenu;
     private List<Map<String, Object>> _menuList;
@@ -40,19 +42,14 @@ public class ListViewActivity extends Activity {
                 _menuList, R.layout.row, FROM, TO);
         this._lvMenu.setAdapter(adapter);
         this._lvMenu.setOnItemClickListener(new ListItemClickListener());
-    }//onCreate
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_options_menu_list, menu);
-        return super.onCreateOptionsMenu(menu);
-    }//onCreateOptionsMenu
+        this.registerForContextMenu(this._lvMenu);
+    }//onCreate
 
     private List<Map<String, Object>> createTeishokuList() {
         List menuList = new ArrayList<>();
 
-        Map<String , Object> menu = new HashMap<>();
+        Map<String, Object> menu = new HashMap<>();
 
         menu.put("name", "ハンバーグ定食");
         menu.put("price", 800);
@@ -71,7 +68,7 @@ public class ListViewActivity extends Activity {
     private List<Map<String, Object>> createCurryList() {
         List menuList = new ArrayList<>();
 
-        Map<String , Object> menu = new HashMap<>();
+        Map<String, Object> menu = new HashMap<>();
 
         menu.put("name", "ビーフカレー");
         menu.put("price", 520);
@@ -87,27 +84,36 @@ public class ListViewActivity extends Activity {
         return menuList;
     }//createCurryList
 
-    private class ListItemClickListener implements ListView.OnItemClickListener{
+    private class ListItemClickListener implements ListView.OnItemClickListener {
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Map<String , Object> item = (Map<String , Object>)adapterView.getItemAtPosition(i);
-            String menuName = (String)item.get("name");
-            Integer menuPrice = (Integer)item.get("price");
+            Map<String, Object> item = (Map<String, Object>) adapterView.getItemAtPosition(i);
 
-            //getApplicationContext の代わりに ListViewActivity.this でもよい
-            Intent intent = new Intent(getApplicationContext(), MenuThanksActivity.class);
-            intent.putExtra("menuName", menuName);
-            intent.putExtra("menuPrice", menuPrice + getString(R.string.tv_menu_unit));
-            startActivity(intent);
-        }
-    }
+            order(item);
+//            Integer menuPrice = (Integer) item.get("price");
+//            String menuName = (String) item.get("name");
+//
+//            //getApplicationContext の代わりに MenuListActivity.this でもよい
+//            Intent intent = new Intent(getApplicationContext(), MenuThanksActivity.class);
+//            intent.putExtra("menuName", menuName);
+//            intent.putExtra("menuPrice", menuPrice + getString(R.string.tv_menu_unit));
+//            startActivity(intent);
+        }//onItemClick
+    }//class ListItemClickListener
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_options_menu_list, menu);
+        return super.onCreateOptionsMenu(menu);
+    }//onCreateOptionsMenu
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 
-        switch(itemId){
+        switch (itemId) {
             case R.id.menuListOptionTeishoku:
                 this._menuList = createTeishokuList();
                 break;
@@ -123,4 +129,46 @@ public class ListViewActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }//onOptionsItemSelected
-}//ListViewActivity
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_context_menu_list, menu);
+        menu.setHeaderTitle(R.string.menu_list_context_header);
+    }//onCreateContextMenu
+
+    private void order(Map<String, Object> menu) {
+        String menuName = (String) menu.get("name");
+        Integer menuPrice = (Integer) menu.get("price");
+        Intent intent = new Intent(getApplicationContext(), MenuThanksActivity.class);
+        intent.putExtra("menuName", menuName);
+        intent.putExtra("menuPrice", menuPrice);
+        startActivity(intent);
+    }//order
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        //itemは選択したコンテキストメニューのアイテム（商品の説明 or ご注文）
+        //item.getMenuInfo()が返すのはContextMenuInfoに過ぎない
+        //ContextMenuInfoをAdapterContextMenuInfoにキャストするとpositionが取り出せる。
+        //positionが長押しした指の下のリストビューのアイテム番号になっている。
+        AdapterView.AdapterContextMenuInfo info
+                = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int listPosition = info.position;
+        Map<String, Object> menu = this._menuList.get(listPosition);
+        //menuにはmenuPriceとかmenuNameが入っている
+
+        int itemId = item.getItemId();
+        switch (itemId) {
+            case R.id.menuListContextDesc:
+                String desc = (String) menu.get("desc");
+                Toast.makeText(getApplicationContext(), desc, Toast.LENGTH_LONG).show();
+                break;
+            case R.id.menuListContextOrder:
+                order(menu);
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
+}//MenuListActivity
