@@ -3,11 +3,13 @@ package com.gmail.takashi316.fragmentsample;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -68,8 +70,26 @@ public class MenuListFragment extends Fragment {
                 from, to);
 
         lvMenu.setAdapter(adapter);
+        lvMenu.setOnItemClickListener(new ListItemClickListener());
 
         return inflatedView;
-    }
+    }//onCreateView
 
-}
+    private class ListItemClickListener implements ListView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Map<String,String> item = (Map<String,String>) parent.getItemAtPosition(position);
+            String menuName = item.get("name");
+            String menuPrice = item.get("price");
+
+            Intent intent = new Intent(_parentActivity, MenuThanksActivity.class);
+            intent.putExtra("menuName", menuName);
+            intent.putExtra("menuPrice", menuPrice);
+
+            startActivity(intent);
+
+        }//onItemClick
+    }//ListItemClickListener
+
+}//MenuListFragment
