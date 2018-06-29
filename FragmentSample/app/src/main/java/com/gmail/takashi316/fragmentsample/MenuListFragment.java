@@ -2,6 +2,8 @@ package com.gmail.takashi316.fragmentsample;
 
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ public class MenuListFragment extends Fragment {
 
 
     private Activity _parentActivity;
+    private boolean _isLayoutXlarge = false;
     //private Context context;
 
     public MenuListFragment() {
@@ -75,6 +78,21 @@ public class MenuListFragment extends Fragment {
         return inflatedView;
     }//onCreateView
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        View menuThanksFrame = _parentActivity.findViewById
+                (R.id.menuThanksFrame);
+
+        if(menuThanksFrame==null){
+            this._isLayoutXlarge = false;
+        } else {
+            this._isLayoutXlarge = true;
+        }//if
+
+    }//onActivityCreated
+
     private class ListItemClickListener implements ListView.OnItemClickListener {
 
         @Override
@@ -83,11 +101,26 @@ public class MenuListFragment extends Fragment {
             String menuName = item.get("name");
             String menuPrice = item.get("price");
 
-            Intent intent = new Intent(_parentActivity, MenuThanksActivity.class);
-            intent.putExtra("menuName", menuName);
-            intent.putExtra("menuPrice", menuPrice);
+            Bundle bundle = new Bundle();
+            bundle.putString("menuName", menuName);
+            bundle.putString("menuPrice", menuPrice);
 
-            startActivity(intent);
+            if(_isLayoutXlarge) {
+                FragmentManager manager = getFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+
+                MenuThanksFragment menuThanksFragment = new MenuThanksFragment();
+                menuThanksFragment.setArguments(bundle);
+                transaction.replace(R.id.menuThanksFrame, menuThanksFragment);
+
+                transaction.commit();
+            } else {
+                Intent intent = new Intent(_parentActivity, MenuThanksActivity.class);
+                intent.putExtras(bundle);
+                //intent.putExtra("menuName", menuName);
+                //intent.putExtra("menuPrice", menuPrice);
+                startActivity(intent);
+            }//if
 
         }//onItemClick
     }//ListItemClickListener

@@ -2,6 +2,8 @@ package com.gmail.takashi316.fragmentsample;
 
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 public class MenuThanksFragment extends Fragment {
 
     private Activity _parentActivity;
+    private boolean _isLayoutXlarge = false;
 
     public MenuThanksFragment() {
         // Required empty public constructor
@@ -28,8 +31,17 @@ public class MenuThanksFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this._parentActivity = getActivity();
-        this.setHasOptionsMenu(true);
-    }
+        //this.setHasOptionsMenu(true);
+
+        View fragmentMenuList = _parentActivity.findViewById
+                (R.id.fragmentMenuList);
+        if(fragmentMenuList==null){
+            this._isLayoutXlarge = false;
+        } else {
+            this._isLayoutXlarge = true;
+        }//if
+
+    }//onCreate
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,11 +50,17 @@ public class MenuThanksFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_menu_thanks,
                 container, false);
 
-        Intent intent = this._parentActivity.getIntent();
+        Bundle extras;
+        if(this._isLayoutXlarge){
+            extras = this.getArguments();
+        } else {
+            Intent intent = this._parentActivity.getIntent();
+            extras = intent.getExtras();
+        }//if
+
         String menuName = "不明";
         String menuPrice = "不明";
 
-        Bundle extras = intent.getExtras();
         if(extras != null) {
             menuName = extras.getString("menuName");
             menuPrice = extras.getString("menuPrice");
@@ -55,14 +73,24 @@ public class MenuThanksFragment extends Fragment {
         tvMenuPrice.setText(menuPrice);
 
         Button btBackButton = view.findViewById(R.id.btBackButton);
-        btBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                _parentActivity.finish();
-            }//onClick
-        });
+        btBackButton.setOnClickListener(new ButtonClickListener());
 
         return view;
     }//onCreateView
 
-}
+    private class ButtonClickListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+            if(_isLayoutXlarge){
+                FragmentManager manager = getFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.remove(MenuThanksFragment.this);
+                transaction.commit();
+            } else {
+                _parentActivity.finish();
+            }//if
+        }//onClick
+    }//ButtonClickListener
+
+}//MenuThanksFragment
