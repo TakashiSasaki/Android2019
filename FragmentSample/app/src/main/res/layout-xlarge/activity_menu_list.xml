@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <fragment
+        android:id="@+id/fragmentMenuList"
         android:layout_width="0dp"
         android:layout_weight="0.4"
         android:layout_height="match_parent"
@@ -11,6 +12,9 @@
         ></fragment>
 
     <FrameLayout
+        android:id="@+id/menuThanksFrame"
+        android:layout_marginLeft="50dp"
+        android:background="?android:attr/detailsElementBackground"
         android:layout_width="0dp"
         android:layout_weight="0.6"
         android:layout_height="match_parent"></FrameLayout>
