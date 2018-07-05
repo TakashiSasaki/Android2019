@@ -6,8 +6,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "cocktaiilmemo.db";
-    private static final int DATABASE_VERSION = 1;
+    //開発中など、データベースを作り直したいときは
+    //データベースファイル名を変えるか、データベースバージョンをあげる。
+    //onUpgradeではテーブルをDROPする。
+
+    private static final String DATABASE_NAME = "cocktailmemo5.db";
+    private static final int DATABASE_VERSION = 2;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -27,5 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        sqLiteDatabase.execSQL("DROP TABLE cocktailmemo");
+        this.onCreate(sqLiteDatabase);
     }//onUpgrade
 }//DatabaseHelper
