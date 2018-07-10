@@ -42,6 +42,7 @@ public class WeatherInfoActivity extends Activity {
                 cityList, android.R.layout.simple_expandable_list_item_1, from, to);
 
         lvCityList.setAdapter(adapter);
+        lvCityList.setOnItemClickListener(new ListItemClickListener());
 
     }//onCreate
 
@@ -51,9 +52,15 @@ public class WeatherInfoActivity extends Activity {
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             Map<String, String> item = (Map<String,String>) adapterView.getItemAtPosition(i);
             String cityName = item.get("name");
-            String cytyId = item.get("id");
+            String cityId = item.get("id");
             TextView tvCityName = findViewById(R.id.tvCityName);
             tvCityName.setText(cityName + "の天気：");
+
+            WeatherInfoReceiver receiver = new WeatherInfoReceiver(
+                    (TextView)findViewById(R.id.tvWeatherTelop),
+                    (TextView)findViewById(R.id.tvWeatherDesc)
+            );
+            receiver.execute(cityId); //ここで停止しない（非同期）
         }//onItemClick
     }//ListItemClickListener
 
