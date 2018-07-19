@@ -4,6 +4,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -74,13 +77,22 @@ public class WeatherInfoReceiver extends AsyncTask<String, String,String>{
     }//is2String
 
     @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);  //念のためスーパークラスのメソッドを呼んでおく
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result);  //念のためスーパークラスのメソッドを呼んでおく
         String telop = "";
         String desc = "";
 
         //JSON文字列を解析する
-        desc = s;
+        try {
+            JSONObject rootJSON = new JSONObject(result);
+            JSONObject descriptionJson = rootJSON.getJSONObject("description");
+            desc = descriptionJson.getString("text");
+            telop = rootJSON.getJSONArray("forecasts")
+                    .getJSONObject(0).getString("telop");
+        } catch(JSONException e){
+            //特に何もしない
+        }
+        //desc = s;
 
         _tvWeatherTelop.setText(telop);
         _tvWeatherDesc.setText(desc);
