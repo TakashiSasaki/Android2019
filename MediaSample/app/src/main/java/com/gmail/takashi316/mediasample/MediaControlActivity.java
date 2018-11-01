@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import java.io.IOException;
 
@@ -27,6 +29,11 @@ public class MediaControlActivity extends AppCompatActivity {
         this._btBack = findViewById(R.id.btBack);
         this._btForward = findViewById(R.id.btForward);
         this._player = new MediaPlayer();
+
+        Switch loopSwitch = findViewById(R.id.swLoop);
+        loopSwitch.setOnCheckedChangeListener(
+                new LoopSwitchChangedListener()
+        );
 
         String mediaFileUriStr = "android.resource://"
                 + getPackageName() + "/"
@@ -68,7 +75,9 @@ public class MediaControlActivity extends AppCompatActivity {
 
         @Override
         public void onCompletion(MediaPlayer mediaPlayer) {
-            _btPlay.setText(R.string.bt_play_play);
+            if(!_player.isLooping()) {
+                _btPlay.setText(R.string.bt_play_play);
+            }//if
         }//onCompletion
     }//PlayerCompletionListener
 
@@ -92,4 +101,26 @@ public class MediaControlActivity extends AppCompatActivity {
         }//if
         _player = null;
     }//onDestroy
+
+    public void onBackButtonClick(View view) {
+        _player.seekTo(0);
+    }
+
+    public void onForwardButtonClick(View view){
+        final int duration = _player.getDuration();
+        _player.seekTo(duration);
+        if(!_player.isPlaying()) {
+            _player.start();
+        }
+    }
+
+    private class LoopSwitchChangedListener
+        implements CompoundButton.OnCheckedChangeListener {
+        @Override
+        public void onCheckedChanged
+                (CompoundButton compoundButton, boolean b) {
+            _player.setLooping(b);
+        }//onCheckedChanged
+    }//LoopSwitchChangedListener
+
 }//MediaControlActivity
