@@ -58,4 +58,9 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+    <SurfaceView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/surfaceView"/>
 </LinearLayout>
