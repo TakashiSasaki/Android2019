@@ -17,10 +17,29 @@ public class MediaControlActivity extends AppCompatActivity {
 
     private MediaPlayer _player;
     // mMediaPlayer とか mediaPlayer とか書く人もいる
+    private int currentPosition = 100;
 
     private Button _btPlay;
     private Button _btBack;
     private Button _btForward;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(_player != null) {
+            this.currentPosition = _player.getCurrentPosition();
+        }
+        outState.putInt("currentPosition", this.currentPosition);
+    }//onSaveInstanceState
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        this.currentPosition =
+                savedInstanceState.getInt
+                        ("currentPosition", 0);
+
+    }//onRestoreInstanceState
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +114,7 @@ public class MediaControlActivity extends AppCompatActivity {
             _player.pause();
             _btPlay.setText(R.string.bt_play_play);
         } else {
+            _player.seekTo(currentPosition);
             _player.start();
             _btPlay.setText(R.string.bt_play_pause);
         }//if
@@ -104,7 +124,7 @@ public class MediaControlActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if(_player != null && _player.isPlaying()) {
-            _player.start();
+            _player.stop();
         } else {
             //特になにもすることなし
         }//if
@@ -134,12 +154,13 @@ public class MediaControlActivity extends AppCompatActivity {
 
     // SurfaceView は準備ができたらSurfaceHolder.Callbackを呼び出す。
     //コールバックを受け取るためのクラスを用意おこうと思った。
-    //ここでは無名プライベートクラスを定義してインスタンスを作る
+    //ここではプライベートクラスを定義してインスタンスを作る
     //onCreate のsetContentViewですでにSurfaceViewは作られている。
     //そのSurfaceViewに新たにSurfaceHolder.Callbackを設定するには？
 
     private class SurfaceHolderCallback
             implements SurfaceHolder.Callback {
+
         @Override
         public void surfaceCreated(SurfaceHolder surfaceHolder) {
             _player.setDisplay(surfaceHolder);
@@ -149,11 +170,13 @@ public class MediaControlActivity extends AppCompatActivity {
         public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
             //SurfaceView のサイズが変更されたときなどに呼び出される
             //とりあえず今は何もしない。
+            currentPosition = _player.getCurrentPosition();
         }//surfaceChanged
 
         @Override
         public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
             //アクティビティ自身のonDestroyでnullにされているかも知れない
+            currentPosition = _player.getCurrentPosition();
             if(_player != null) _player.release();
             //アクティビティ自身のonDestroyで解放するので必須ではない
             _player = null;
