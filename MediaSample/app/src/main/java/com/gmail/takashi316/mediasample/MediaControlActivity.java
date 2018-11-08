@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -17,7 +18,7 @@ public class MediaControlActivity extends AppCompatActivity {
 
     private MediaPlayer _player;
     // mMediaPlayer とか mediaPlayer とか書く人もいる
-    private int currentPosition = 100;
+    private int currentPosition = 100; //再生途中の位置を記録
 
     private Button _btPlay;
     private Button _btBack;
@@ -26,25 +27,36 @@ public class MediaControlActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if(_player != null) {
-            this.currentPosition = _player.getCurrentPosition();
-        }
-        outState.putInt("currentPosition", this.currentPosition);
+        //TODO: ライフサイクルを確認
+        if(_player != null){
+            currentPosition = _player.getCurrentPosition();
+        }//if
+        outState.putInt("currentPosition", currentPosition);
+        Log.d("onSaveInstanceState", String.valueOf(currentPosition));
     }//onSaveInstanceState
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        this.currentPosition =
-                savedInstanceState.getInt
-                        ("currentPosition", 0);
-
+        //TODO: ライフサイクルを確認
+        if(savedInstanceState != null){
+            currentPosition =
+                    savedInstanceState.getInt
+                            ("currentPosition", 1);
+            Log.d("onRestoreInstanceState", "currentPosition = " + currentPosition);
+        }//if
     }//onRestoreInstanceState
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_media_control);
+
+        if(savedInstanceState != null){
+            currentPosition =
+                    savedInstanceState.getInt
+                            ("currentPosition", 0);
+        }//if
+        Log.d("onCreate", "currentPosition = "+currentPosition);
 
         this._btPlay = findViewById(R.id.btPlay);
         this._btBack = findViewById(R.id.btBack);
@@ -110,12 +122,19 @@ public class MediaControlActivity extends AppCompatActivity {
     }//PlayerCompletionListener
 
     public void onPlayButtonClick(View view){
+        Log.d("onPlayButtonClick", String.valueOf(currentPosition));
         if(_player.isPlaying()) {
+            currentPosition = _player.getCurrentPosition();
+            Log.d("onPlayButtonClick", "currentPosition = " + currentPosition);
             _player.pause();
+            Log.d("onPlayButtonClick", "pause");
             _btPlay.setText(R.string.bt_play_play);
         } else {
+            Log.d("onPlayButtonClick", "currentPosition = " + currentPosition);
             _player.seekTo(currentPosition);
+            Log.d("onPlayButtonClick", "seekTo");
             _player.start();
+            Log.d("onPlayButtonClick", "start");
             _btPlay.setText(R.string.bt_play_pause);
         }//if
     }//onPlayButtonClick
@@ -169,17 +188,24 @@ public class MediaControlActivity extends AppCompatActivity {
         @Override
         public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
             //SurfaceView のサイズが変更されたときなどに呼び出される
-            //とりあえず今は何もしない。
-            currentPosition = _player.getCurrentPosition();
+            if(_player != null) {
+                //currentPosition = _player.getCurrentPosition();
+                //アクティビティ自身のonDestroyで解放するので必須ではないかも知れない
+                Log.d("surfaceChanged", "currentPosition = " + currentPosition);
+            } else {
+                Log.d("surfaceChanged", "_player == null");
+            }
         }//surfaceChanged
 
         @Override
         public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
             //アクティビティ自身のonDestroyでnullにされているかも知れない
-            currentPosition = _player.getCurrentPosition();
-            if(_player != null) _player.release();
-            //アクティビティ自身のonDestroyで解放するので必須ではない
-            _player = null;
+            if(_player != null) {
+                currentPosition = _player.getCurrentPosition();
+                Log.d("surfaceDestroyed", "currentPosition = " + currentPosition);
+            } else {
+                Log.d("surfaceDestroyed", "_player == null");
+            }
         }//surfaceDestroyed
     };//SurfaceHolderCallback
 
