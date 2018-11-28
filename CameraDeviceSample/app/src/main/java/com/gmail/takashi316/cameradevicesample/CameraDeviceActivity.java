@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.View;
 
 import java.util.Arrays;
 
@@ -69,30 +70,6 @@ public class CameraDeviceActivity extends AppCompatActivity {
             @Override
             public void onSurfaceTextureAvailable(final SurfaceTexture surfaceTexture, int width, int height) {
                 surface = new Surface(surfaceTexture);
-                try {
-                    cameraDevice.createCaptureSession(Arrays.asList(surface),
-                            new CameraCaptureSession.StateCallback() {
-                                @Override
-                                public void onConfigured(@androidx.annotation.NonNull @NonNull CameraCaptureSession session) {
-                                    try {
-                                        CaptureRequest.Builder captureRequestBuilder
-                                                = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-                                        captureRequestBuilder.addTarget(surface);
-                                        CaptureRequest captureRequest = captureRequestBuilder.build();
-                                        session.setRepeatingRequest(captureRequest, null, null);
-                                    } catch (CameraAccessException e) {
-                                        e.printStackTrace();
-                                    }//try
-                                }// onConfigured
-
-                                @Override
-                                public void onConfigureFailed(@androidx.annotation.NonNull @NonNull CameraCaptureSession session) {
-
-                                }// onConfigureFailed
-                            }, null);
-                } catch (CameraAccessException e) {
-                    e.printStackTrace();
-                }//try
             }//onSurfaceTextureAvailable
 
             @Override
@@ -119,4 +96,27 @@ public class CameraDeviceActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.d("onRequestPermissionsResult", grantResults.toString());
     }
-}
+
+    public void onPreviewButtonClick(View view) throws CameraAccessException {
+        cameraDevice.createCaptureSession(Arrays.asList(surface),
+                new CameraCaptureSession.StateCallback() {
+                    @Override
+                    public void onConfigured(@androidx.annotation.NonNull @NonNull CameraCaptureSession session) {
+                        try {
+                            CaptureRequest.Builder captureRequestBuilder
+                                    = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+                            captureRequestBuilder.addTarget(surface);
+                            CaptureRequest captureRequest = captureRequestBuilder.build();
+                            session.setRepeatingRequest(captureRequest, null, null);
+                        } catch (CameraAccessException e) {
+                            e.printStackTrace();
+                        }//try
+                    }// onConfigured
+
+                    @Override
+                    public void onConfigureFailed(@androidx.annotation.NonNull @NonNull CameraCaptureSession session) {
+
+                    }// onConfigureFailed
+                }, null);
+    }//onPreviewButtonClick
+}//CameraDeviceActivity
