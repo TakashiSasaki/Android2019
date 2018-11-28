@@ -21,6 +21,8 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.Arrays;
 
@@ -29,12 +31,17 @@ public class CameraDeviceActivity extends AppCompatActivity {
     TextureView textureView;
     CameraDevice cameraDevice;
     Surface surface;
-    ImageReader imageReader;
+    ImageView imageView;
+    TextView textView;
+    int captureCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_device);
+        this.imageView = findViewById(R.id.imageView);
+        this.textureView = findViewById(R.id.textureView);
+        this.textView = findViewById(R.id.textView);
 
         // パーミッションのチェック
         if (ActivityCompat.checkSelfPermission
@@ -67,8 +74,6 @@ public class CameraDeviceActivity extends AppCompatActivity {
             e.printStackTrace();
             finish(); //カメラが開けなかったらアクティビティを終了
         }
-
-        this.textureView = findViewById(R.id.textureView);
 
         this.textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
 
@@ -110,8 +115,16 @@ public class CameraDeviceActivity extends AppCompatActivity {
                         try {
                             CaptureRequest.Builder captureRequestBuilder
                                     = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+
+                            // TextureView の Surface をキャプチャ画像の送り先として設定
                             captureRequestBuilder.addTarget(surface);
+                            // ImageReader が内部に持っている Surface をキャプチャ画像の送り先として設定することもできる
+                            //captureRequestBuilder.addTarget(imageReader.getSurface());
+                            // 必要なだけキャプチャ画像の送り先を追加できる。
+
                             CaptureRequest captureRequest = captureRequestBuilder.build();
+
+                            //キャプチャ画像の送り先を設定
                             session.setRepeatingRequest(captureRequest, new CameraCaptureSession.CaptureCallback() {
                                 @Override
                                 public void onCaptureStarted(@androidx.annotation.NonNull @NonNull CameraCaptureSession session, @androidx.annotation.NonNull @NonNull CaptureRequest request, long timestamp, long frameNumber) {
@@ -121,9 +134,11 @@ public class CameraDeviceActivity extends AppCompatActivity {
                                 @Override
                                 public void onCaptureCompleted(@androidx.annotation.NonNull @NonNull CameraCaptureSession session, @androidx.annotation.NonNull @NonNull CaptureRequest request, @androidx.annotation.NonNull @NonNull TotalCaptureResult result) {
                                     super.onCaptureCompleted(session, request, result);
-                                    Bitmap bitmap = textureView.getBitmap();
+                                    captureCount += 1;
+                                    textView.setText("" + captureCount);
                                 }
                             }, null);
+
                         } catch (CameraAccessException e) {
                             e.printStackTrace();
                         }//try
@@ -134,4 +149,9 @@ public class CameraDeviceActivity extends AppCompatActivity {
                     }// onConfigureFailed
                 }, null);
     }//onPreviewButtonClick
+
+    public void onCaptureButtonClick(View view) {
+        Bitmap bitmap = textureView.getBitmap();
+        imageView.setImageBitmap(bitmap);
+    }
 }//CameraDeviceActivity
