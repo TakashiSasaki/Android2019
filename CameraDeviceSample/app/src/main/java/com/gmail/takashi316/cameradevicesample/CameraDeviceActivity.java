@@ -3,12 +3,16 @@ package com.gmail.takashi316.cameradevicesample;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.TotalCaptureResult;
+import android.media.ImageReader;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +29,7 @@ public class CameraDeviceActivity extends AppCompatActivity {
     TextureView textureView;
     CameraDevice cameraDevice;
     Surface surface;
+    ImageReader imageReader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +93,6 @@ public class CameraDeviceActivity extends AppCompatActivity {
             }
         });
 
-
     }//onCreate
 
     @Override
@@ -97,6 +101,7 @@ public class CameraDeviceActivity extends AppCompatActivity {
         Log.d("onRequestPermissionsResult", grantResults.toString());
     }
 
+    // まさにコールバック地獄
     public void onPreviewButtonClick(View view) throws CameraAccessException {
         cameraDevice.createCaptureSession(Arrays.asList(surface),
                 new CameraCaptureSession.StateCallback() {
@@ -107,7 +112,18 @@ public class CameraDeviceActivity extends AppCompatActivity {
                                     = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
                             captureRequestBuilder.addTarget(surface);
                             CaptureRequest captureRequest = captureRequestBuilder.build();
-                            session.setRepeatingRequest(captureRequest, null, null);
+                            session.setRepeatingRequest(captureRequest, new CameraCaptureSession.CaptureCallback() {
+                                @Override
+                                public void onCaptureStarted(@androidx.annotation.NonNull @NonNull CameraCaptureSession session, @androidx.annotation.NonNull @NonNull CaptureRequest request, long timestamp, long frameNumber) {
+                                    super.onCaptureStarted(session, request, timestamp, frameNumber);
+                                }
+
+                                @Override
+                                public void onCaptureCompleted(@androidx.annotation.NonNull @NonNull CameraCaptureSession session, @androidx.annotation.NonNull @NonNull CaptureRequest request, @androidx.annotation.NonNull @NonNull TotalCaptureResult result) {
+                                    super.onCaptureCompleted(session, request, result);
+                                    Bitmap bitmap = textureView.getBitmap();
+                                }
+                            }, null);
                         } catch (CameraAccessException e) {
                             e.printStackTrace();
                         }//try
@@ -115,7 +131,6 @@ public class CameraDeviceActivity extends AppCompatActivity {
 
                     @Override
                     public void onConfigureFailed(@androidx.annotation.NonNull @NonNull CameraCaptureSession session) {
-
                     }// onConfigureFailed
                 }, null);
     }//onPreviewButtonClick
