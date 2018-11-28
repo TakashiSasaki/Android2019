@@ -22,82 +22,87 @@ import java.util.Arrays;
 public class CameraDeviceActivity extends AppCompatActivity {
 
     TextureView textureView;
+    CameraDevice cameraDevice;
+    Surface surface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_device);
 
+        // パーミッションのチェック
+        if (ActivityCompat.checkSelfPermission
+                (getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            String[] permissions = {Manifest.permission.CAMERA};
+            ActivityCompat.requestPermissions
+                    (CameraDeviceActivity.this, permissions, 2000);
+            //return;
+        }//if
+        CameraManager cameraManager
+                = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        try {
+            cameraManager.openCamera("0", new CameraDevice.StateCallback() {
+                @Override
+                public void onOpened(@androidx.annotation.NonNull @NonNull CameraDevice camera) {
+                    cameraDevice = camera;
+                }//onOpened
+
+                @Override
+                public void onDisconnected(@androidx.annotation.NonNull @NonNull CameraDevice camera) {
+                    cameraDevice = null;
+                }//onDisconnected
+
+                @Override
+                public void onError(@androidx.annotation.NonNull @NonNull CameraDevice camera, int error) {
+                    cameraDevice = null;
+                }//onError
+            }, null);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+            finish(); //カメラが開けなかったらアクティビティを終了
+        }
 
         this.textureView = findViewById(R.id.textureView);
 
         this.textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
 
-            // プレビュー用のサーフェスが用意されてからカメラをオープンする
             @Override
             public void onSurfaceTextureAvailable(final SurfaceTexture surfaceTexture, int width, int height) {
-                // パーミッションのチェック
-                if (ActivityCompat.checkSelfPermission
-                        (getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    String[] permissions = {Manifest.permission.CAMERA};
-                    ActivityCompat.requestPermissions
-                            (CameraDeviceActivity.this, permissions, 2000);
-                    //return;
-                }//if
-                CameraManager cameraManager
-                        = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+                surface = new Surface(surfaceTexture);
                 try {
-                    cameraManager.openCamera("0", new CameraDevice.StateCallback() {
-                        @Override
-                        public void onOpened(@androidx.annotation.NonNull @NonNull final CameraDevice cameraDevice) {
-                            final Surface surface = new Surface(surfaceTexture);
-                            try {
-                                cameraDevice.createCaptureSession(Arrays.asList(surface),
-                                        new CameraCaptureSession.StateCallback() {
-                                    @Override
-                                    public void onConfigured(@androidx.annotation.NonNull @NonNull CameraCaptureSession session) {
-                                        try {
-                                            CaptureRequest.Builder captureRequestBuilder
+                    cameraDevice.createCaptureSession(Arrays.asList(surface),
+                            new CameraCaptureSession.StateCallback() {
+                                @Override
+                                public void onConfigured(@androidx.annotation.NonNull @NonNull CameraCaptureSession session) {
+                                    try {
+                                        CaptureRequest.Builder captureRequestBuilder
                                                 = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-                                            captureRequestBuilder.addTarget(surface);
-                                            CaptureRequest captureRequest = captureRequestBuilder.build();
-                                            session.setRepeatingRequest(captureRequest, null, null);
-                                        } catch (CameraAccessException e) {
-                                            e.printStackTrace();
-                                        }//try
-                                    }// onConfigured
+                                        captureRequestBuilder.addTarget(surface);
+                                        CaptureRequest captureRequest = captureRequestBuilder.build();
+                                        session.setRepeatingRequest(captureRequest, null, null);
+                                    } catch (CameraAccessException e) {
+                                        e.printStackTrace();
+                                    }//try
+                                }// onConfigured
 
-                                    @Override
-                                    public void onConfigureFailed(@androidx.annotation.NonNull @NonNull CameraCaptureSession session) {
+                                @Override
+                                public void onConfigureFailed(@androidx.annotation.NonNull @NonNull CameraCaptureSession session) {
 
-                                    }// onConfigureFailed
-                                }, null);
-                            } catch (CameraAccessException e) {
-                                e.printStackTrace();
-                            }//try
-                        }//onOpened
-
-                        @Override
-                        public void onDisconnected(@androidx.annotation.NonNull @NonNull CameraDevice camera) {
-
-                        }//onDisconnected
-
-                        @Override
-                        public void onError(@androidx.annotation.NonNull @NonNull CameraDevice camera, int error) {
-
-                        }//onError
-                    }, null);
+                                }// onConfigureFailed
+                            }, null);
                 } catch (CameraAccessException e) {
                     e.printStackTrace();
-                }
+                }//try
             }//onSurfaceTextureAvailable
 
             @Override
-            public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+            public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int width, int height) {
+                surface = null;
             }//onSurfaceTextureSizeChanged
 
             @Override
-            public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+            public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+                surface = null;
                 return false;
             }//onSurfaceTextureDestroyed
 
