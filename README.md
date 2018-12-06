@@ -5,6 +5,9 @@ Android Studioのアップデートに伴い変更が必要な個所があった
 Kotlinでの書き直しや書籍では取り上げられていない機能を付け加えたりしながら進めておりますので、
 コードを共有するためにGithubに置いています。
 
+Firebase入門 2018年12月6日～
+http://bit.ly/2KXO1QF
+
 基礎&応用力をしっかり育成! Androidアプリ開発の教科書 なんちゃって開発者にならないための実践ハンズオン (CodeZine BOOKS) 
 https://www.amazon.co.jp/dp/4798152021/ref=cm_sw_r_tw_dp_U_x_dHv4BbK6JB5TT
 
