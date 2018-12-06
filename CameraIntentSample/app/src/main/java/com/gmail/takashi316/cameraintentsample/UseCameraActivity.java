@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -78,6 +79,9 @@ public class UseCameraActivity extends AppCompatActivity {
         ContentResolver contentResolver = this.getContentResolver();
         this._imageUri = contentResolver.insert
                 (MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+        //Log.d("onButtonClick", this._imageUri.toString());
+        TextView textViewUri = findViewById(R.id.textViewUri);
+        textViewUri.setText(this._imageUri.toString());
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, _imageUri);
