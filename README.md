@@ -10,6 +10,10 @@ Kotlinでの書き直しや書籍では取り上げられていない機能を�
 基礎&応用力をしっかり育成! Androidアプリ開発の教科書 なんちゃって開発者にならないための実践ハンズオン (CodeZine BOOKS) 
 https://www.amazon.co.jp/dp/4798152021/ref=cm_sw_r_tw_dp_U_x_dHv4BbK6JB5TT
 
+#2019年4月23日の内容
+
+1* aaa
+
 #後期資料
 Firebase入門
 http://bit.ly/2KXO1QF
