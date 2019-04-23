@@ -19,6 +19,8 @@ https://www.amazon.co.jp/dp/4798152021/ref=cm_sw_r_tw_dp_U_x_dHv4BbK6JB5TT
 4. 新規プロジェクトの作成
 5. GitHubの説明
 
+# 質問など
+質問などはメール takashi316@gmail.com か Twitter https://mobile.twitter.com/TakashiSasaki まで。
 # 後期資料
 Firebase入門
 http://bit.ly/2KXO1QF
