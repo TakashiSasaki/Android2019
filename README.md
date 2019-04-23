@@ -13,11 +13,11 @@ https://www.amazon.co.jp/dp/4798152021/ref=cm_sw_r_tw_dp_U_x_dHv4BbK6JB5TT
 
 # 2019年4月23日の内容
 
-*1 授業の進め方についての説明
-*2 教科書、ノートパソコン、タブレットの確認
-*3 Android Studioのインストール
-*4 新規プロジェクトの作成
-*5 GitHubの説明
+1. 授業の進め方についての説明
+2. 教科書、ノートパソコン、タブレットの確認
+3. Android Studioのインストール
+4. 新規プロジェクトの作成
+5. GitHubの説明
 
 # 後期資料
 Firebase入門
