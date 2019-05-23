@@ -1,16 +1,16 @@
 <resources>
-    <string name="app_name">リスト選択サンプル</string>
+    <string name="app_name">ListViewSample</string>
     <string-array name="lv_menu">
-        <item>唐揚げ定食</item>
-        <item>ハンバーグ定食</item>
-        <item>生姜焼き定食</item>
-        <item>ステーキ定食</item>
-        <item>野菜炒め定食</item>
-        <item>とんかつ定食</item>
-        <item>ミンチかつ定食</item>
-        <item>チキンカツ定食</item>
-        <item>コロッケ定食</item>
-        <item>焼き魚定食</item>
-        <item>焼肉定食</item>
+        <item>karaage-teishoku</item>
+        <item>hamburg-teishoku</item>
+        <item>shougayaki-teishoku</item>
+        <item>steak-teishoku</item>
+        <item>yasai-itame-teishoku</item>
+        <item>tonkatsu-teishoku</item>
+        <item>minchi-katsu-teishoku</item>
+        <item>chicken-katsu-teishoku</item>
+        <item>korokke-teishoku</item>
+        <item>yakizakana-teishoku</item>
+        <item>yakiniku-teishoku</item>
     </string-array>
 </resources>
