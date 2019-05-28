@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">ConstraintLayoutSample</string>
+    <string name="tv_title">Fill the following forms.</string>
+    <string name="tv_name">Your name</string>
+    <string name="tv_mail">Your email address</string>
+    <string name="tv_comment">Message</string>
+    <string name="bt_confirm">Confirm</string>
+    <string name="bt_send">Send</string>
+    <string name="bt_clear">Clear</string>
 </resources>
