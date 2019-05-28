@@ -1,8 +1,10 @@
 package com.example.intentsample;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -23,7 +25,7 @@ public class MenuListActivity extends AppCompatActivity {
 
         ListView lvMenu = findViewById(R.id.lvMenu);
 
-        List<Map<String,String>> menuList = new ArrayList<>();
+        List /*<Map<String,String>>*/ menuList = new ArrayList<>();
 
         Map<String, String> menu = new HashMap<>();
         menu.put("name", "karaage");
@@ -45,8 +47,12 @@ public class MenuListActivity extends AppCompatActivity {
         SimpleAdapter adapter = new SimpleAdapter
                 (getApplicationContext(), menuList,
                         android.R.layout.simple_list_item_2,
-                        from, to);
+                        from,  //値を取り出すキーの名前の配列
+                        to  //取り出した値を反映させるTextViewのIDの配列
+                );
 
+        //アダプターのsetViewBinderで、
+        //データからビューを作成するときに操作を加えられる。
         adapter.setViewBinder(new SimpleAdapter.ViewBinder() {
             @Override
             public boolean setViewValue(View view, Object data, String textRepresentation) {
@@ -56,5 +62,6 @@ public class MenuListActivity extends AppCompatActivity {
         });
 
         lvMenu.setAdapter(adapter);
-    }
-}
+    }//onCreate
+
+}//MenuListActivity
