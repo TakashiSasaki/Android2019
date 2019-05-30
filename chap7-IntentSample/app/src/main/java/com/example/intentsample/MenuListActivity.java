@@ -25,7 +25,7 @@ public class MenuListActivity extends AppCompatActivity {
 
         ListView lvMenu = findViewById(R.id.lvMenu);
 
-        List /*<Map<String,String>>*/ menuList = new ArrayList<>();
+        List <Map<String,String>> menuList = new ArrayList<>();
 
         Map<String, String> menu = new HashMap<>();
         menu.put("name", "karaage");
@@ -62,6 +62,27 @@ public class MenuListActivity extends AppCompatActivity {
         });
 
         lvMenu.setAdapter(adapter);
+        lvMenu.setOnItemClickListener(new ListItemClickListener());
     }//onCreate
+
+    private class ListItemClickListener
+    implements AdapterView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent,
+                                View view, int position, long id) {
+            Map item = (Map) parent.getItemAtPosition(position);
+            String menuName = (String) item.get("name");
+            String menuPrice = (String) item.get("price");
+            Intent intent = new Intent(
+                    getApplicationContext(),
+                    MenuThanksActivity.class
+            );
+            intent.putExtra("menuName", menuName);
+            intent.putExtra("menuPrice", menuPrice);
+            startActivity(intent);
+        }
+    }
+
 
 }//MenuListActivity
