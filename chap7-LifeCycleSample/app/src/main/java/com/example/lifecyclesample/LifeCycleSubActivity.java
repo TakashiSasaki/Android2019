@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 
 public class LifeCycleSubActivity extends AppCompatActivity {
@@ -14,6 +15,13 @@ public class LifeCycleSubActivity extends AppCompatActivity {
                "Sub onCreate() called.");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_life_cycle_sub);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Log.i("LifeCycleSample",
+                "Sub onCreateOptionsMenu() called.");
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
