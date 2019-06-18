@@ -1,47 +1,50 @@
 package com.example.fragmenteventlistener;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link BlankFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link BlankFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class BlankFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    // getString が失敗した時のためのデフォルト値
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+    // フラグメントが初期化されたときに設定したいパラメータ
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private Button buttonGetMessageByListener;
+    private Button buttonGetMessageFromActivity;
+    private TextView textView;
 
+    // 参考 http://developer.android.com/training/basics/fragments/communicating.html
+    // アクティビティ側の情報を使わなければならない処理など
+    // フラグメント側の一存で処理できないことについては
+    // インターフェイスだけを定義しておいてアクティビティ側に任せる。
+    // Fragment#getActivity でアクティビティを取得して対応することもできるが、
+    // そのためには Activity が public メンバを公開しなければならない。
+    public interface OnGetMessageListener {
+        String onGetMessage();
+    }//OnGetMessageListener
+
+    //  何らかの方法で外部から OnGetMessageListener のインスタンスをもらう。
+    //  通常はアクティビティが OnGetMessageListener インターフェイスを実装し
+    //  そのアクティビティを Fragment#onAttach で受け取り listener で参照する。
+    private OnGetMessageListener listener;
+
+    //　フラグメントのコンストラクタは引数を持つことができない
     public BlankFragment() {
-        // Required empty public constructor
-    }
+    }//BlankFragment()
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BlankFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+    //　フラグメントのコンストラクタは引数を持つことができないため、
+    //  パラメータは生成後に Fragment#setArguments で渡すしかない。
+    // そこで new と setArguments を同時に行う静的メソッドを用意する。
+    // このような静的メソッドをファクトリメソッドと呼ぶ。
     public static BlankFragment newInstance(String param1, String param2) {
         BlankFragment fragment = new BlankFragment();
         Bundle args = new Bundle();
@@ -49,60 +52,70 @@ public class BlankFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }
+    }//newInstance
 
+    //  Fragment#setArguments により渡されたパラメータは
+    //  Fragment#onCreate の中で Fragment#getArguments により取得する。
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+        }//if
+    }//onCreate
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_blank, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_blank, container, false);
+        this.buttonGetMessageByListener = view.findViewById(R.id.buttonGetMessageByListener);
+        this.buttonGetMessageFromActivity = view.findViewById(R.id.buttonGetMessageFromActivity);
+        this.textView = view.findViewById(R.id.textView);
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+        this.buttonGetMessageByListener.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // フラグメント側は自分で定義したリスナのメソッドを呼ぶ。
+                // どのアクティビティから使われるのか知る必要は無い。
+                final String message = listener.onGetMessage();
+                textView.setText(message);
+            }//onClick
+        });//setOnClickListener
 
+        this.buttonGetMessageFromActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // フラグメント側がどのアクティビティで
+                // 使われるのか知っていなければならない
+                final String message = ((MainActivity) getActivity()).getMessage();
+                textView.setText(message);
+            }//onClick
+        });//setOnClickListener
+
+        return view;
+    }//onCreateView
+
+    // フラグメントがアクティビティに関連付けられたとき Fragment#onAttach が呼び出される。
+    // このアクティビティは OnGetMessageListener インターフェスを実装している。
+    // Context で受けているので OnGetMessageListener へのキャストが必要。
+    // もしアクティビティが OnGetMessageListener を実装していなければ例外を投げる。
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnGetMessageListener) {
+            listener = (OnGetMessageListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+                    + " must implement OnGetMessageListener");
+        }//if
+    }//onAttach
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-}
+        listener = null;
+    }//onDetach
+}//class BlankFragment
