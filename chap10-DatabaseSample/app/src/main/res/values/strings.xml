@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">chap10-DatabaseSample</string>
+    <string-array name="lv_cocktaillist">
+        <item>White Lady</item>
+        <item>Balalaika</item>
+        <item>XYZ</item>
+        <item>New York</item>
+        <item>Manhattan</item>
+        <item>Mississippi Mule</item>
+        <item>Blue Hawaii</item>
+    </string-array>
+    <string name="tv_lb_name">selected cocktail</string>
+    <string name="tv_name">no cocktail</string>
+    <string name="tv_lb_note">note</string>
+    <string name="btn_save">save</string>
+</resources>
