@@ -90,7 +90,8 @@ public class BlankFragment extends Fragment {
             public void onClick(View v) {
                 // フラグメント側がどのアクティビティで
                 // 使われるのか知っていなければならない
-                final String message = ((MainActivity) getActivity()).getMessage();
+                final String message =
+                        ((MainActivity) getActivity()).getMessage();
                 textView.setText(message);
             }//onClick
         });//setOnClickListener

@@ -18,10 +18,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public String onGetMessage() {
-        return "OnGetMessageListener#onGetMessage : " + editText.getText().toString();
+        return "OnGetMessageListener#onGetMessage : "
+                + editText.getText().toString();
     }//onGetMessage
 
     public String getMessage() {
-        return "MainActivity#getMessage : " + editText.getText().toString();
+        return "MainActivity#getMessage : "
+                + editText.getText().toString();
     }//getMessage
 }//MainActivity
