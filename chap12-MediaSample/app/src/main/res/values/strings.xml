@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MediaSample</string>
+    <string name="bt_play_play">Play</string>
+    <string name="bt_play_pause">Pause</string>
+    <string name="bt_back">Back</string>
+    <string name="bt_forward">Forward</string>
+    <string name="tv_loop">Loop</string>
 </resources>
