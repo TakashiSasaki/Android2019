@@ -171,11 +171,10 @@ public class MediaControlActivity extends AppCompatActivity {
         }//onCheckedChanged
     }//LoopSwitchChangedListener
 
-    // SurfaceView は準備ができたらSurfaceHolder.Callbackを呼び出す。
-    //コールバックを受け取るためのクラスを用意おこうと思った。
-    //ここではプライベートクラスを定義してインスタンスを作る
-    //onCreate のsetContentViewですでにSurfaceViewは作られている。
-    //そのSurfaceViewに新たにSurfaceHolder.Callbackを設定するには？
+    // SurfaceView は準備ができたらSurfaceHolder#Callbackを呼び出す。
+    // SurfaceHolderはSurfraceView#getHolderで取り出す。
+    // SurfaceHolder#addCallbackでコールバックを設定することができる。
+    // コールバックの設定はonCreateで行う。
 
     private class SurfaceHolderCallback
             implements SurfaceHolder.Callback {
