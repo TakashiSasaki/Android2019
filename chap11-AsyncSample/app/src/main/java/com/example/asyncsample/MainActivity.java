@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,7 +19,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -96,7 +96,10 @@ public class MainActivity extends AppCompatActivity {
     }//ListItemClickListener
 
     private class WeatherInfoReceiver
-            extends AsyncTask<String, Integer, String> {
+            extends AsyncTask<
+            String /*for parameter of doInBackground */,
+            String /*for parameter of onProgressUpdate */,
+            String /*for parameter of onPostExecute */> {
 
         private TextView _tvWeatherTelop;
         private TextView _tvWeatherDesc;
@@ -118,7 +121,9 @@ public class MainActivity extends AppCompatActivity {
                 URL url = new URL(urlStr);
                 con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
+                publishProgress("Establishing connection.");
                 con.connect();
+                publishProgress("Connection has finished.");
                 is = con.getInputStream();
                 result = is2String(is);
             } catch (MalformedURLException e) {
@@ -126,10 +131,10 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
-                if(con != null){
+                if (con != null) {
                     con.disconnect();
                 }
-                if(is != null){
+                if (is != null) {
                     try {
                         is.close();
                     } catch (IOException e) {
@@ -137,15 +142,14 @@ public class MainActivity extends AppCompatActivity {
                     }//try
                 }//if
             }//finally
-            //publishProgress(1);
-            //publishProgress(2);
-            //publishProgress(123);
             return result;
         }//doInBackground
 
         @Override
-        protected void onProgressUpdate(Integer... values) {
+        protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
+            Toast.makeText(getApplicationContext(),
+                    values[0], Toast.LENGTH_SHORT).show();
             Log.i("onProgressUpdate", "" + values[0]);
         }//onProgressUpdate
 
@@ -173,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
     }//WeatherInfoReceiver
 
     static private String is2String(InputStream is)
-            throws  IOException {
+            throws IOException {
         BufferedReader reader =
                 new BufferedReader(
                         new InputStreamReader(
@@ -181,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
         StringBuffer sb = new StringBuffer();
         char[] b = new char[1024];
         int length;
-        while(0 <= (length = reader.read(b))){
+        while (0 <= (length = reader.read(b))) {
             sb.append(b, 0, length);
         }//while
         return sb.toString();
