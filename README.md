@@ -1,8 +1,4 @@
-# 河原学園2019年度Androidプログラミング 授業資料
-
-河原学園2019年度Androidプログラミング資料。
-2018年度の資料を引き継いでいます。
-2018年度までのリポジトリはKawaharaAndroid2018です。授業における告知などもこのページで行います。
+# 2019年度Androidプログラミング 授業資料
 
 このリポジトリは、「Androidアプリ開発の教科書（CodeZine BOOKS）」のサンプルコードをもとしています。
 参加者は書籍を購入した上で出席しているので本来は必要ないものですが、
@@ -14,14 +10,6 @@ Kotlinでの書き直しや書籍では取り上げられていない機能を�
 # 教科書
 基礎&応用力をしっかり育成! Androidアプリ開発の教科書 なんちゃって開発者にならないための実践ハンズオン (CodeZine BOOKS) 
 https://www.amazon.co.jp/dp/4798152021/ref=cm_sw_r_tw_dp_U_x_dHv4BbK6JB5TT
-
-# 2019年4月23日の内容
-
-1. 授業の進め方についての説明
-2. 教科書、ノートパソコン、タブレットの確認
-3. Android Studioのインストール
-4. 新規プロジェクトの作成
-5. GitHubの説明
 
 # 質問など
 質問などはメール takashi316@gmail.com か Twitter https://mobile.twitter.com/TakashiSasaki まで。
