@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ServiceSample</string>
+    <string name="bt_play_play">Play</string>
+    <string name="bt_paly_stop">Stop</string>
+    <string name="msg_notification_title_start">Playing</string>
+    <string name="msg_notification_text_start">just started playing</string>
+    <string name="msg_notification_title_finish">Finished</string>
+    <string name="msg_notification_text_finish">just finished playing</string>
+    <string name="notification_channel_name">ServiceSampleNotification</string>
+</resources>

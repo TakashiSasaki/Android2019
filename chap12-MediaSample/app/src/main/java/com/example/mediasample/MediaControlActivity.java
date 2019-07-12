@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -29,11 +31,19 @@ public class MediaControlActivity extends AppCompatActivity {
         Switch swLoop = findViewById(R.id.swLoop);
         swLoop.setOnCheckedChangeListener(new LoopSwitchChangedListener());
         _player = new MediaPlayer();
+
+        SurfaceView surfaceView = findViewById(R.id.surfaceView);
+        SurfaceHolder surfaceHolder = surfaceView.getHolder();
+        surfaceHolder.addCallback(new SurfaceHolderCallback());
+
+
+
         String mediaFileUriStr =
                 "android.resource://" +
                         getPackageName() +
                         "/" +
-                        R.raw.mountain_stream;
+                        /*R.raw.mountain_stream*/
+                R.raw.kanikan_large;
         Log.i("onCreate", mediaFileUriStr);
         Uri mediaFileUri = Uri.parse(mediaFileUriStr);
         try {
@@ -113,4 +123,22 @@ public class MediaControlActivity extends AppCompatActivity {
         }
     }
 
+    private class SurfaceHolderCallback
+     implements SurfaceHolder.Callback {
+
+        @Override
+        public void surfaceCreated(SurfaceHolder holder) {
+            _player.setDisplay(holder);
+        }
+
+        @Override
+        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+        }
+
+        @Override
+        public void surfaceDestroyed(SurfaceHolder holder) {
+
+        }
+    }
 }//class MediaControlActivity

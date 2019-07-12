@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">メディアサンプル</string>
+    <string name="bt_play_play">再生</string>
+    <string name="bt_play_pause">一時停止</string>
+    <string name="bt_back">&lt;&lt;</string>
+    <string name="bt_forward">&gt;&gt;</string>
+    <string name="tv_loop">リピート再生</string>
+</resources>
