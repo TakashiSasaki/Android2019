@@ -9,7 +9,8 @@ Kotlinでの書き直しや書籍では取り上げられていない機能を�
 
 # 教科書
 基礎&応用力をしっかり育成! Androidアプリ開発の教科書 なんちゃって開発者にならないための実践ハンズオン (CodeZine BOOKS) 
-https://www.amazon.co.jp/dp/4798152021/ref=cm_sw_r_tw_dp_U_x_dHv4BbK6JB5TT
+WINGSプロジェクト 齊藤 新三  (著), 山田 祥寛 (監修)
+https://www.amazon.co.jp/dp/4798152021
 
 # 質問など
 質問などはメール takashi316@gmail.com か Twitter https://mobile.twitter.com/TakashiSasaki まで。
