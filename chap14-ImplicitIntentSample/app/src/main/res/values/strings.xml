@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ImplicitIntentSample</string>
+    <string name="bt_map_search">Search location in the map</string>
+    <string name="tv_current_title">Current location</string>
+    <string name="tv_latitude_title">Latitude</string>
+    <string name="tv_longitude_title">Longitude</string>
+    <string name="bt_map_current">Show current location</string>
+</resources>
