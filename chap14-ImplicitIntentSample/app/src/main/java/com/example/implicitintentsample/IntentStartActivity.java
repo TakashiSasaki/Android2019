@@ -51,13 +51,13 @@ public class IntentStartActivity extends AppCompatActivity {
                     LocationManager.GPS_PROVIDER, 0, 0,
                     new GPSLocationListener());
         } catch (SecurityException e) {
-            e.printStackTrace();
-        }
-    }//onCreate
+                e.printStackTrace();
+            }
+        }//onCreate
 
-    @Override
-    public void onRequestPermissionsResult
-            (int requestCode, @NonNull String[] permissions,
+        @Override
+        public void onRequestPermissionsResult
+                (int requestCode, @NonNull String[] permissions,
              @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1000
@@ -120,7 +120,7 @@ public class IntentStartActivity extends AppCompatActivity {
         }
     }
 
-    void onMapShowCurrentButtonClick(View view) {
+    public void onMapShowCurrentButtonClick(View view) {
         String uriStr = "geo:" + _latitude + "," + _longitude;
         Uri uri = Uri.parse(uriStr);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
