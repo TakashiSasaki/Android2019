@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:id="@+id/ivCamera"
         android:onClick="onCameraImageClick"
-        android:scaleType="fitCenter"
+        android:scaleType="center"
         app:srcCompat = "@android:drawable/ic_menu_camera"
         >
     </ImageView>

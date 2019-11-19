@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -61,10 +62,11 @@ public class UseCameraActivity extends AppCompatActivity {
     public void onButtonClick(View view){
         //onButtonClick
         if(ActivityCompat.checkSelfPermission
-                (this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                (this.getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
             ActivityCompat.requestPermissions(this, permissions, 2000);
+            return;
         }//if
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -87,4 +89,13 @@ public class UseCameraActivity extends AppCompatActivity {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, _imageUri);
         startActivityForResult(intent, 300);
     }//onButtonClick
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 2000 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+            ImageView ivCamera = findViewById(R.id.ivCamera);
+            onCameraImageClick(ivCamera);
+        }
+    }
 }//UseCameraActivity
