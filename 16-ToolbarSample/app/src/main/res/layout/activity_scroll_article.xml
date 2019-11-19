@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="10dp"
+        android:logo="@mipmap/ic_launcher"
+        android:subtitle="@string/toolbar_subtitle"
+        android:subtitleTextColor="@color/LTGRAY"
+        android:title="@string/toolbar_title"
+        android:titleTextColor="@color/WHITE"></Toolbar>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I'm out of the ScrollView below."></TextView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textViewArticle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="I'm in a ScrollView."></TextView>
+    </ScrollView>
+</LinearLayout>
