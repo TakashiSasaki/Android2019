@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -12,11 +11,10 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.TotalCaptureResult;
-import android.media.ImageReader;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
@@ -28,12 +26,11 @@ import java.util.Arrays;
 
 public class CameraDeviceActivity extends AppCompatActivity {
 
-    TextureView textureView;
-    CameraDevice cameraDevice;
-    Surface surface;
     ImageView imageView;
+    TextureView textureView;
     TextView textView;
-    int captureCount = 0;
+    CameraDevice cameraDevice;
+    Surface surface;    int captureCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +70,7 @@ public class CameraDeviceActivity extends AppCompatActivity {
         } catch (CameraAccessException e) {
             e.printStackTrace();
             finish(); //カメラが開けなかったらアクティビティを終了
-        }
+        }//try
 
         this.textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
 
