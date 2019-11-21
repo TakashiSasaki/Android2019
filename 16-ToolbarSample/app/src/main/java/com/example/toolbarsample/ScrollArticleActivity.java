@@ -17,6 +17,8 @@ public class ScrollArticleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scroll_article);
+        TextView textViewArtile = findViewById(R.id.textViewArticle);
+        textViewArtile.setText(R.string.tv_article);
         //Toolbar toolbar = findViewById(R.id.toolbar);
         //toolbar.setSubtitleTextColor(Color.LTGRAY)
         //setSupportActionBar(toolbar);
