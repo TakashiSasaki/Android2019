@@ -1,10 +1,10 @@
 package com.example.collapsedtoolbarlayout;
 
 import android.graphics.Color;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 public class CollapsedToolbarLayoutActivity extends AppCompatActivity {
 
