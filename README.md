@@ -15,8 +15,15 @@ https://www.amazon.co.jp/dp/4798152021
 # 質問など
 質問などはメール takashi316@gmail.com か Twitter https://mobile.twitter.com/TakashiSasaki まで。
 # 後期資料
-Firebase入門
+Firebase入門(Googleスライド)
 http://bit.ly/2KXO1QF
+HelloKbcSasaki（Android Studio）
+https://github.com/TakashiSasaki/Android2019/tree/master/HelloKbcSasaki
+Firebase Samples by Google
+https://firebase.google.com/docs/samples?hl=ja
+Firebase Quickstart Samples by Google (Giuthub repository)
+https://github.com/firebase/quickstart-android
+
 
 # おまけ
 参加者の中で機械学習についての初心者向けハンズオンにも興味がある方は、次の資料をご覧ください。
