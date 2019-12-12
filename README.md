@@ -33,4 +33,5 @@ https://codelabs.developers.google.com/codelabs/firebase-android/
 
 # おまけ
 参加者の中で機械学習についての初心者向けハンズオンにも興味がある方は、次の資料をご覧ください。
+→ただいまCodelabのアップデートについていくために編集中です。
 https://docs.google.com/presentation/d/1onjRNOd0zsarmgromDbFotYq-vE8sk10P105bluXQWk/edit?usp=sharing
