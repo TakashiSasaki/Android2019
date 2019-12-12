@@ -17,12 +17,18 @@ https://www.amazon.co.jp/dp/4798152021
 # 後期資料
 Firebase入門(Googleスライド)
 http://bit.ly/2KXO1QF
+
 HelloKbcSasaki（Android Studio）
 https://github.com/TakashiSasaki/Android2019/tree/master/HelloKbcSasaki
+
 Firebase Samples by Google
 https://firebase.google.com/docs/samples?hl=ja
+
 Firebase Quickstart Samples by Google (Giuthub repository)
 https://github.com/firebase/quickstart-android
+
+Firebase Android Codelab - Build Friendly Chat
+https://codelabs.developers.google.com/codelabs/firebase-android/
 
 
 # おまけ
