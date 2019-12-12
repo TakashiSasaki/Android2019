@@ -6,11 +6,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,11 +34,32 @@ public class ScrollingActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Write to Firebase Realtime Database", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
 
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if(firebaseUser == null) {
+                    Snackbar.make(view, "You've not been logged in.", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                } else {
+                    Snackbar.make(view, "You've been logged in as " + firebaseUser.getEmail(), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }//if
 
-            }
+                firebaseAuth.signInWithEmailAndPassword("test1@example.com", "test1pass")
+                        .addOnCompleteListener(ScrollingActivity.this,
+                                new OnCompleteListener<AuthResult>() {
+
+                                    @Override
+                                    public void onComplete( Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            AuthResult authResult = task.getResult();
+                                            Log.d("HelloKbcSasaki", task.getResult().getUser().getEmail());
+                                        } else {
+                                            Log.d("HelloKbcSasaki", "Failed to sign in.");
+                                        }
+                                    }//onComplete
+                                });
+            }//onComplete
         });
 
         // Write a message to the database
