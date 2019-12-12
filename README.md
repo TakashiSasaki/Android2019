@@ -22,7 +22,7 @@ HelloKbcSasaki（Android Studio）
 https://github.com/TakashiSasaki/Android2019/tree/master/HelloKbcSasaki
 
 Firebase Realtime Database
-https://firebase.google.com/docs/database/
+https://firebase.google.com/docs/database/?hl=ja
 
 Firebase Samples by Google
 https://firebase.google.com/docs/samples?hl=ja
