@@ -37,7 +37,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                if(firebaseUser == null) {
+                if (firebaseUser == null) {
                     Snackbar.make(view, "You've not been logged in.", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 } else {
@@ -45,20 +45,21 @@ public class ScrollingActivity extends AppCompatActivity {
                             .setAction("Action", null).show();
                 }//if
 
-                firebaseAuth.signInWithEmailAndPassword("test1@example.com", "test1pass")
-                        .addOnCompleteListener(ScrollingActivity.this,
-                                new OnCompleteListener<AuthResult>() {
 
-                                    @Override
-                                    public void onComplete( Task<AuthResult> task) {
-                                        if (task.isSuccessful()) {
-                                            AuthResult authResult = task.getResult();
-                                            Log.d("HelloKbcSasaki", task.getResult().getUser().getEmail());
-                                        } else {
-                                            Log.d("HelloKbcSasaki", "Failed to sign in.");
-                                        }
-                                    }//onComplete
-                                });
+                Task<AuthResult> task = firebaseAuth.signInWithEmailAndPassword("test1@example.com", "test1pas");
+                task.addOnCompleteListener(ScrollingActivity.this,
+                        new OnCompleteListener<AuthResult>() {
+
+                            @Override
+                            public void onComplete(Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    AuthResult authResult = task.getResult();
+                                    Log.d("HelloKbcSasaki", task.getResult().getUser().getEmail());
+                                } else {
+                                    Log.d("HelloKbcSasaki", "Failed to sign in.");
+                                }
+                            }//onComplete
+                        });
             }//onComplete
         });
 
