@@ -15,6 +15,9 @@ https://www.amazon.co.jp/dp/4798152021
 # 質問など
 質問などはメール takashi316@gmail.com か Twitter https://mobile.twitter.com/TakashiSasaki まで。
 # 後期資料
+授業中のメモは hackmd.io にあります。
+https://hackmd.io/@TakashiSasaki/Android2019
+
 Firebase入門(Googleスライド)
 http://bit.ly/2KXO1QF
 
