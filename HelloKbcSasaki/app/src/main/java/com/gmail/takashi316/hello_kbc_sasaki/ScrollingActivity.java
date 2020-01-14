@@ -76,13 +76,13 @@ public class ScrollingActivity extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 String value = dataSnapshot.getValue(String.class);
-                Log.d("TAGU", "Value is: " + value);
+                Log.d("ValueEventListener", "Value is: " + value);
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
-                Log.w("TAGU", "Failed to read value.", error.toException());
+                Log.w("ValueEventListener", "Failed to read value.", error.toException());
             }
         });
     }
