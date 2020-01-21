@@ -17,7 +17,7 @@ https://www.amazon.co.jp/dp/4798152021
 # 後期資料
 授業中のメモは hackmd.io にあります。
 [20200114](https://hackmd.io/@TakashiSasaki/android-20200114)
-[20200116](https://hackmd.io/@TakashiSasaki/android-20200116
+[20200116](https://hackmd.io/@TakashiSasaki/android-20200116)
 [20200121](https://hackmd.io/@TakashiSasaki/firebase-20200121)
 
 Firebase入門(Googleスライド)
