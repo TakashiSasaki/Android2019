@@ -19,6 +19,7 @@ https://www.amazon.co.jp/dp/4798152021
 [20200114](https://hackmd.io/@TakashiSasaki/android-20200114)
 [20200116](https://hackmd.io/@TakashiSasaki/android-20200116)
 [20200121](https://hackmd.io/@TakashiSasaki/20200121)
+[20200123](https://hackmd.io/@TakashiSasaki/firebase-20200123)
 
 Firebase入門(Googleスライド)
 http://bit.ly/2KXO1QF
