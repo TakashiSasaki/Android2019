@@ -67,7 +67,7 @@ public class ScrollingActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");
 
-        myRef.setValue("Hello, World!");
+        myRef.setValue("Goodbye!");
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
