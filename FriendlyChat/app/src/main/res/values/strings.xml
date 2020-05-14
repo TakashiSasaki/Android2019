@@ -12,4 +12,5 @@
     <string name="fresh_config">Fresh Config</string>
     <string name="cause_crash">Cause Crash</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="default_web_client_id">98593416711-dv0ff70iqc71oqhjvsv3fe4p05imitje.apps.googleusercontent.com</string>
 </resources>
